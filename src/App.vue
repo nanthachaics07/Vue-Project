@@ -1,30 +1,54 @@
 <script setup>
-import HelloWorld from './components/HelloWorld.vue'
+import { reactive } from "vue"
+
+let formData = reactive({
+  firstname: "",
+  lastname: "",
+  age: 0,
+  gender: "",
+  interests: [],
+  description: "",
+})
+
+const gendersList = ['male', 'female', 'other']
+const interestsList = ['basketball', 'volleyball', 'tennis', 'badminton']
+
+const submitData = () => {
+  console.log('formData', JSON.parse(JSON.stringify(formData)))
+  console.log('interest', formData.interests.join())
+}
 </script>
 
 <template>
   <div>
-    <a href="https://vitejs.dev" target="_blank">
-      <img src="/vite.svg" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://vuejs.org/" target="_blank">
-      <img src="./assets/vue.svg" class="logo vue" alt="Vue logo" />
-    </a>
+    <div>
+      <div>First Name</div>
+      <input class="form" type="text" v-model="formData.firstname" />
+    </div>
+    <div>
+      <div>Last Name</div>
+      <input class="form" type="text" v-model="formData.lastname" />
+    </div>
+    <div>
+      <div>Age</div>
+      <input type="number" min="0" max="100" v-model="formData.age" />
+    </div>
+    <div>
+      <div>Gender</div>
+      <div v-for="gender in gendersList" v-bind:key="gender">
+        <input type="radio" :value="gender" v-model="formData.gender"> {{ gender }}
+      </div>
+    </div>
+    <div>
+      <div>Interests</div>
+      <div v-for="interest in interestsList" v-bind:key="interest">
+        <input type="checkbox" :value="interest" v-model="formData.interests"> {{ interest }}
+      </div>
+    </div>
+    <div>
+      <div>Description</div>
+      <textarea></textarea>
+    </div>
+    <button @click="submitData()">Submit</button>
   </div>
-  <HelloWorld msg="Vite + Vue" />
 </template>
-
-<style scoped>
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #42b883aa);
-}
-</style>
